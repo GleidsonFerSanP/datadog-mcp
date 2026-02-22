@@ -123,12 +123,13 @@ export function activate(context: vscode.ExtensionContext) {
             log('Datadog credentials not yet configured. Tools will guide the user when invoked.', 'warn');
         }
 
-        // Show welcome only once
+        // Show welcome per version (resets on update)
         {
-            const hasShownWelcome = context.globalState.get<boolean>('hasShownWelcome', false);
-            if (!hasShownWelcome) {
+            const currentVersion = context.extension.packageJSON.version || '1.0.0';
+            const welcomeShownForVersion = context.globalState.get<string>('welcomeShownForVersion', '');
+            if (welcomeShownForVersion !== currentVersion) {
                 const message = hasCredentials
-                    ? 'Datadog Observability is ready! 65+ monitoring tools available in Copilot Chat.'
+                    ? `Datadog Observability v${currentVersion} is ready! 65+ monitoring tools available in Copilot Chat.`
                     : 'Datadog Observability installed! Configure your API credentials when you\'re ready — just use Cmd+Shift+P → "Configure Datadog Credentials".';
                 vscode.window.showInformationMessage(
                     message,
@@ -141,7 +142,7 @@ export function activate(context: vscode.ExtensionContext) {
                         vscode.commands.executeCommand('datadogObservability.viewDocs');
                     }
                 });
-                context.globalState.update('hasShownWelcome', true);
+                context.globalState.update('welcomeShownForVersion', currentVersion);
             }
         }
     })();

@@ -161,13 +161,9 @@ class DatadogObservabilityServer {
           content: [
             {
               type: 'text',
-              text: JSON.stringify({
-                error: errorMessage,
-                success: false,
-              }, null, 2),
+              text: `Something went wrong while executing the tool: ${errorMessage}\n\nPlease check that your Datadog credentials are valid and that the parameters are correct. You can retry the request or ask me to try a different approach.`,
             },
           ],
-          isError: true,
         };
       }
     });
