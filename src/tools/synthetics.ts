@@ -54,7 +54,7 @@ export const syntheticsTools = [
         subtype: { type: 'string', enum: ['http', 'ssl', 'dns', 'tcp', 'icmp'], description: 'API test subtype', default: 'http' },
         url: { type: 'string', description: 'URL to test' },
         method: { type: 'string', enum: ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH'], description: 'HTTP method', default: 'GET' },
-        headers: { type: 'object', description: 'Request headers as key-value pairs' },
+        headers: { type: 'string', description: 'JSON object of request headers as key-value pairs. Example: {"Content-Type":"application/json"}' },
         assertions: {
           type: 'array',
           items: {
@@ -62,7 +62,7 @@ export const syntheticsTools = [
             properties: {
               type: { type: 'string', description: 'Assertion type (e.g., "statusCode", "responseTime", "body")' },
               operator: { type: 'string', description: 'Comparison operator (e.g., "is", "lessThan", "contains")' },
-              target: { description: 'Expected value' },
+              target: { type: 'string', description: 'Expected value (e.g., "200", "1000")' },
             },
           },
           description: 'Test assertions',
@@ -148,6 +148,8 @@ export async function handleSyntheticsTool(name: string, args: any, client: Data
           { type: 'responseTime', operator: 'lessThan', target: 5000 },
         ];
 
+        const headers = typeof args.headers === 'string' ? JSON.parse(args.headers) : (args.headers || {});
+
         const body = {
           name: args.name,
           type: 'api',
@@ -156,7 +158,7 @@ export async function handleSyntheticsTool(name: string, args: any, client: Data
             request: {
               url: args.url,
               method: args.method || 'GET',
-              headers: args.headers || {},
+              headers,
             },
             assertions,
           },

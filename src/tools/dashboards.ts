@@ -34,9 +34,9 @@ export const dashboardsTools = [
       properties: {
         title: { type: 'string', description: 'Dashboard title' },
         layout_type: { type: 'string', enum: ['ordered', 'free'], description: 'Dashboard layout type', default: 'ordered' },
-        widgets: { type: 'array', items: { type: 'object' }, description: 'Array of widget definitions (JSON)' },
+        widgets: { type: 'string', description: 'JSON array of widget definitions. Example: [{"definition":{"type":"timeseries","requests":[{"q":"avg:system.cpu.user{*}"}]},"layout":{"x":0,"y":0,"width":4,"height":2}}]' },
         description: { type: 'string', description: 'Dashboard description' },
-        template_variables: { type: 'array', items: { type: 'object' }, description: 'Template variables for the dashboard' },
+        template_variables: { type: 'string', description: 'JSON array of template variables. Example: [{"name":"env","prefix":"env","default":"production"}]' },
       },
       required: ['title', 'layout_type', 'widgets'],
     },
@@ -50,7 +50,7 @@ export const dashboardsTools = [
         dashboard_id: { type: 'string', description: 'The dashboard ID to update' },
         title: { type: 'string', description: 'Updated title' },
         layout_type: { type: 'string', enum: ['ordered', 'free'], description: 'Layout type' },
-        widgets: { type: 'array', items: { type: 'object' }, description: 'Updated widget definitions' },
+        widgets: { type: 'string', description: 'JSON array of updated widget definitions' },
         description: { type: 'string', description: 'Updated description' },
       },
       required: ['dashboard_id', 'title', 'layout_type', 'widgets'],
@@ -134,23 +134,27 @@ export async function handleDashboardsTool(name: string, args: any, client: Data
       }
 
       case 'create_dashboard': {
+        const widgets = typeof args.widgets === 'string' ? JSON.parse(args.widgets) : args.widgets;
         const body: any = {
           title: args.title,
           layout_type: args.layout_type,
-          widgets: args.widgets,
+          widgets,
         };
         if (args.description) body.description = args.description;
-        if (args.template_variables) body.template_variables = args.template_variables;
+        if (args.template_variables) {
+          body.template_variables = typeof args.template_variables === 'string' ? JSON.parse(args.template_variables) : args.template_variables;
+        }
 
         const result = await client.post<any>('/api/v1/dashboard', body);
         return `✅ Dashboard created successfully!\n  Title: ${result.title}\n  ID: ${result.id}\n  URL: ${result.url || 'N/A'}`;
       }
 
       case 'update_dashboard': {
+        const widgets = typeof args.widgets === 'string' ? JSON.parse(args.widgets) : args.widgets;
         const body: any = {
           title: args.title,
           layout_type: args.layout_type,
-          widgets: args.widgets,
+          widgets,
         };
         if (args.description) body.description = args.description;
 
