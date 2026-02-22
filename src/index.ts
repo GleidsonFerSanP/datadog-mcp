@@ -28,7 +28,7 @@ type ToolHandler = (name: string, args: any, client: DatadogClient) => Promise<s
 
 class DatadogObservabilityServer {
   private server: Server;
-  private client: DatadogClient;
+  private client: DatadogClient | null;
   private toolHandlers: Map<string, ToolHandler>;
 
   constructor() {
@@ -37,15 +37,14 @@ class DatadogObservabilityServer {
     const site = process.env.DD_SITE || 'datadoghq.com';
 
     if (!apiKey || !appKey) {
-      console.error('ERROR: DD_API_KEY and DD_APP_KEY environment variables are required.');
-      console.error('Set them before starting the server:');
-      console.error('  export DD_API_KEY=your_api_key');
-      console.error('  export DD_APP_KEY=your_application_key');
-      process.exit(1);
+      console.error('WARNING: DD_API_KEY and/or DD_APP_KEY environment variables are not set.');
+      console.error('The server will start, but tools will not work until credentials are configured.');
+      console.error('Use the "Configure Datadog Credentials" command in VS Code to set them.');
+      this.client = null;
+    } else {
+      const credentials: DatadogCredentials = { apiKey, appKey, site };
+      this.client = new DatadogClient(credentials);
     }
-
-    const credentials: DatadogCredentials = { apiKey, appKey, site };
-    this.client = new DatadogClient(credentials);
 
     this.server = new Server(
       {
@@ -128,6 +127,18 @@ class DatadogObservabilityServer {
 
         if (!args) {
           throw new Error('Missing arguments for tool call');
+        }
+
+        if (!this.client) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: '⚠️ Datadog credentials are not configured. Please set your API Key and Application Key using the "Configure Datadog Credentials" command in VS Code (Cmd+Shift+P / Ctrl+Shift+P → "Configure Datadog Credentials"), then reload the window.',
+              },
+            ],
+            isError: true,
+          };
         }
 
         const handler = this.toolHandlers.get(name);
