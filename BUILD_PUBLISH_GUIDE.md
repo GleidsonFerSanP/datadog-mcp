@@ -2,10 +2,10 @@
 
 ## Prerequisites
 
-- Node.js 18+
-- npm
-- [vsce](https://github.com/microsoft/vscode-vsce) (`npm install -g @vscode/vsce`)
-- A [Visual Studio Marketplace Publisher Account](https://marketplace.visualstudio.com/manage)
+* Node.js 18+
+* npm
+* [vsce](https://github.com/microsoft/vscode-vsce) (`npm install -g @vscode/vsce`)
+* A [Visual Studio Marketplace Publisher Account](https://marketplace.visualstudio.com/manage)
 
 ## Build Steps
 
@@ -38,7 +38,7 @@ npm run compile
 
 ### 3. Create Icon PNG
 
-If you don't have `icon.png`, convert from SVG:
+If you don't have `icon.png` , convert from SVG:
 
 ```bash
 # Using ImageMagick
@@ -115,10 +115,13 @@ npx vsce publish major
 ## Troubleshooting
 
 ### "Missing publisher name"
-Ensure `publisher` is set in `extension/package.json`.
+
+Ensure `publisher` is set in `extension/package.json` .
 
 ### "MCP server files not found"
+
 Run `npm run copy-server` from the extension directory.
 
 ### "Cannot find module"
+
 Run `npm install` in both root and extension directories.

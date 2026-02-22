@@ -41,8 +41,8 @@ datadog-mcp/
 
 ### Prerequisites
 
-- Node.js 18+
-- npm
+* Node.js 18+
+* npm
 
 ### Build
 
