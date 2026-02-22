@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.vsix
+.env
+extension/mcp-server/
+extension/dist/
+extension/node_modules/
+.DS_Store
+package-lock.json

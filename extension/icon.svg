@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#632CA6"/>
+      <stop offset="100%" style="stop-color:#4A1A8A"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#bg)" stroke="#7B3FBF" stroke-width="2"/>
+  
+  <!-- Metric line graph -->
+  <polyline points="24,85 38,72 48,78 58,55 68,60 78,40 88,45 98,30 108,35"
+    fill="none" stroke="#00C9A7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Data points on line -->
+  <circle cx="58" cy="55" r="3" fill="#00C9A7"/>
+  <circle cx="78" cy="40" r="3" fill="#00C9A7"/>
+  <circle cx="98" cy="30" r="3" fill="#00C9A7"/>
+  
+  <!-- Magnifying glass (observability) -->
+  <circle cx="52" cy="50" r="16" fill="none" stroke="white" stroke-width="3" opacity="0.9"/>
+  <line x1="63" y1="61" x2="74" y2="72" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  
+  <!-- Eye inside magnifying glass (monitoring) -->
+  <ellipse cx="52" cy="50" rx="8" ry="5" fill="none" stroke="white" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="52" cy="50" r="2.5" fill="white" opacity="0.8"/>
+  
+  <!-- Small bar chart (metrics) -->
+  <rect x="82" y="70" width="6" height="18" rx="1" fill="white" opacity="0.6"/>
+  <rect x="91" y="62" width="6" height="26" rx="1" fill="white" opacity="0.7"/>
+  <rect x="100" y="55" width="6" height="33" rx="1" fill="white" opacity="0.8"/>
+  
+  <!-- Subtle paw print -->
+  <circle cx="30" cy="95" r="2.5" fill="white" opacity="0.3"/>
+  <circle cx="37" cy="92" r="2.5" fill="white" opacity="0.3"/>
+  <circle cx="44" cy="95" r="2.5" fill="white" opacity="0.3"/>
+  <ellipse cx="37" cy="100" rx="5" ry="3.5" fill="white" opacity="0.3"/>
+</svg>

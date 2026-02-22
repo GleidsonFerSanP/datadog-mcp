@@ -1,0 +1,9 @@
+src/**
+node_modules/**
+.env
+*.ts
+!dist/**
+tsconfig.json
+create-icon.js
+icon.svg
+.vscode/**
