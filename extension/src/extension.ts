@@ -119,25 +119,30 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
 
-        // Welcome message on first activation
-        const hasShownWelcome = context.globalState.get<boolean>('hasShownWelcome', false);
-        if (!hasShownWelcome) {
-            const action = hasCredentials
-                ? 'Datadog Observability is ready! 65+ monitoring tools available in Copilot Chat.'
-                : 'Datadog Observability installed! Configure your API credentials to get started.';
-            
-            vscode.window.showInformationMessage(
-                action,
-                hasCredentials ? 'View Documentation' : 'Configure Now',
-                'Got it'
-            ).then(selection => {
-                if (selection === 'Configure Now') {
-                    vscode.commands.executeCommand('datadogObservability.configure');
-                } else if (selection === 'View Documentation') {
-                    vscode.commands.executeCommand('datadogObservability.viewDocs');
-                }
-            });
-            context.globalState.update('hasShownWelcome', true);
+        if (!hasCredentials) {
+            log('Datadog credentials not yet configured. Tools will guide the user when invoked.', 'warn');
+        }
+
+        // Show welcome only once
+        {
+            const hasShownWelcome = context.globalState.get<boolean>('hasShownWelcome', false);
+            if (!hasShownWelcome) {
+                const message = hasCredentials
+                    ? 'Datadog Observability is ready! 65+ monitoring tools available in Copilot Chat.'
+                    : 'Datadog Observability installed! Configure your API credentials when you\'re ready — just use Cmd+Shift+P → "Configure Datadog Credentials".';
+                vscode.window.showInformationMessage(
+                    message,
+                    hasCredentials ? 'View Documentation' : 'Configure Now',
+                    'Got it'
+                ).then(selection => {
+                    if (selection === 'Configure Now') {
+                        vscode.commands.executeCommand('datadogObservability.configure');
+                    } else if (selection === 'View Documentation') {
+                        vscode.commands.executeCommand('datadogObservability.viewDocs');
+                    }
+                });
+                context.globalState.update('hasShownWelcome', true);
+            }
         }
     })();
 

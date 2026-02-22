@@ -2,7 +2,7 @@
     "name": "datadog-observability",
     "displayName": "Datadog Observability for GitHub Copilot",
     "description": "AI-powered Datadog observability tools — Logs, Metrics, Monitors, Dashboards, APM, Incidents and more directly from GitHub Copilot Chat",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "publisher": "GleidsonFerSanP",
     "icon": "icon.png",
     "engines": {

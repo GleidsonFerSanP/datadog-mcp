@@ -134,10 +134,9 @@ class DatadogObservabilityServer {
             content: [
               {
                 type: 'text',
-                text: '⚠️ Datadog credentials are not configured. Please set your API Key and Application Key using the "Configure Datadog Credentials" command in VS Code (Cmd+Shift+P / Ctrl+Shift+P → "Configure Datadog Credentials"), then reload the window.',
+                text: 'I\'d love to help you with Datadog, but it looks like your credentials aren\'t configured yet.\n\nTo get started:\n1. Open the Command Palette (Cmd+Shift+P / Ctrl+Shift+P)\n2. Search for "Configure Datadog Credentials"\n3. Enter your Datadog API Key and Application Key\n4. Reload the VS Code window\n\nYou can get your keys from https://app.datadoghq.com/organization-settings/api-keys\n\nOnce configured, I\'ll be able to search logs, query metrics, check monitors, and much more!',
               },
             ],
-            isError: true,
           };
         }
 
